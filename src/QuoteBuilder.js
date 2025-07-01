@@ -1,65 +1,81 @@
-import React, { useState } from 'react';
-
-const productsData = {
-  '주방소모품': [
-    { id: 1, name: '3색주방행주', price: 300, icon: "/images/category1/3색주방행주.png" },
-    { id: 2, name: '곡물주방세제', price: 5000, icon: "/images/category1/곡물주방세제.png" },
-    { id: 3, name: '도마행주용세정제', price: 5000, icon: "/images/category1/500g.jpg" },
-    { id: 4, name: '기구살균세정제450ml', price: 5000, icon: "/images/category1/450ml.png" },
-    { id: 5, name: '고무장갑', price: 2200, icon: "/images/category1/고무장갑.png" },
-    { id: 6, name: '드라이수세미2P', price: 3000, icon: "/images/category1/드라이수세미2P.png" },
-    { id: 7, name: '위생비닐장갑100매', price: 2200, icon: "/images/category1/위생장갑100매.jpg" },
-    { id: 8, name: '핸드워시250ml', price: 3800, icon: "/images/category1/핸드워시25ml.jpg" },
-    { id: 9, name: '더블지퍼백(중)', price: 2200, icon: "/images/category1/더블지퍼백(중).png" },
-    { id: 10, name: '뉴롤백 대형 200매', price: 4500, icon: "/images/category1/뉴롤백 대형 200매.png" },
-    { id: 11, name: '다용도비닐봉투', price: 5000, icon: "/images/category1/다용도비닐봉투.png" },
-    { id: 12, name: '더블지퍼백(대)', price: 2500, icon: "/images/category1/더블지퍼백(대).jpg" },
-    { id: 13, name: '천연펄프수세미', price: 2800, icon: "/images/category1/천연펄프수세미.png" },
-    { id: 14, name: '유한 크린텍청소박사 60매', price: 1600, icon: "/images/category1/유한 크린텍청소박사 60매.png" },
-    { id: 15, name: '케이스형 라벨지 냉동형', price: 7000, icon: "/images/category1/케이스형 라벨지 냉동형.png" },
-    { id: 16, name: '케이스형 라벨지 냉장형', price: 6000, icon: "/images/category1/케이스형 라벨지 냉장형.png" },
-    { id: 17, name: '무지개행주', price: 3800, icon: "/images/category1/무지개행주.jpg" },
-
-
-  ],
-  '주방용품': [
-    { id: 5, name: '용품1', price: 1000, img: '🍗' },
-    { id: 6, name: '용품2', price: 1200, img: '🍗' },
-  ],
-  '주방기구': [
-    { id: 7, name: '기구1', price: 3000, img: '🥩' },
-    { id: 8, name: '기구2', price: 3200, img: '🥩' },
-  ],
-};
+import React, { useState, useEffect } from 'react';
+import * as XLSX from 'xlsx';
 
 export default function QuoteBuilder() {
+  const [productsData, setProductsData] = useState({});
   const [selectedCategory, setSelectedCategory] = useState('주방소모품');
   const [quoteItems, setQuoteItems] = useState([]);
   const [shopCount, setShopCount] = useState(1);
+
+  useEffect(() => {
+    fetch('/products.json')
+      .then(res => res.json())
+      .then(data => {
+        const newData = {};
+        Object.entries(data).forEach(([category, items]) => {
+          newData[category] = items.map(item => ({
+            ...item,
+            id: `${category}-${item.id}`
+          }));
+        });
+        setProductsData(newData);
+      })
+      .catch(err => console.error('JSON 로드 실패:', err));
+  }, []);
 
   const handleAddItem = (product) => {
     const existing = quoteItems.find(item => item.id === product.id);
     if (existing) {
       setQuoteItems(quoteItems.map(item =>
-        item.id === product.id ? { ...item, qty: item.qty + 1 } : item
+        item.id === product.id ? { ...item, qty: (parseInt(item.qty, 10) || 1) + 1 } : item
       ));
     } else {
-      setQuoteItems([...quoteItems, { ...product, qty: 1 }]);
+      setQuoteItems([...quoteItems, { ...product, qty: "1" }]);
     }
   };
 
   const updateQty = (id, qty) => {
     setQuoteItems(quoteItems.map(item =>
-      item.id === id ? { ...item, qty: Number(qty) } : item
+      item.id === id ? { ...item, qty } : item
     ));
   };
 
-  const removeItem = (id) => {
-    setQuoteItems(quoteItems.filter(item => item.id !== id));
+  const totalPerShop = quoteItems.reduce((sum, item) => sum + (parseInt(item.qty, 10) || 1) * item.price, 0);
+  const totalAllShops = totalPerShop * shopCount;
+
+  const downloadExcel = () => {
+    const data = [
+      ["No", "제품명", "수량", "단가", "합계"]
+    ];
+    quoteItems.forEach((item, idx) => {
+      data.push([
+        idx + 1,
+        item.name,
+        `${item.qty}`,
+        item.price,
+        (parseInt(item.qty, 10) || 1) * item.price
+      ]);
+    });
+    data.push([]);
+    data.push(["총 업소 수", shopCount]);
+    data.push(["업소당 합계", totalPerShop]);
+    data.push(["전체 합계", totalAllShops]);
+
+    const ws = XLSX.utils.aoa_to_sheet(data);
+    ws['!cols'] = [
+      { wch: 5 },    // No
+      { wch: 30 },   // 제품명
+      { wch: 8 },    // 수량
+      { wch: 10 },   // 단가
+      { wch: 12 }    // 합계
+    ];
+
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, "견적서");
+    XLSX.writeFile(wb, "견적서.xlsx");
   };
 
-  const totalPerShop = quoteItems.reduce((sum, item) => sum + item.qty * item.price, 0);
-  const totalAllShops = totalPerShop * shopCount;
+  if (!productsData[selectedCategory]) return <div style={{ padding: '20px' }}>로딩중...</div>;
 
   return (
     <div style={{ display: 'flex', justifyContent: 'space-between', padding: '20px' }}>
@@ -86,20 +102,66 @@ export default function QuoteBuilder() {
             ) : (
               <span style={{ fontSize: '24px', marginRight: '8px' }}>{item.img}</span>
             )}
+
             <span style={{ flexGrow: 1 }}>{idx + 1}. {item.name}</span>
+
             <input
               type="number"
               value={item.qty}
-              min="1"
               onChange={(e) => updateQty(item.id, e.target.value)}
-              style={{ width: '50px', marginRight: '8px' }}
-            />
-            <span>{(item.qty * item.price).toLocaleString()}원</span>
-            <button 
-              onClick={() => removeItem(item.id)}
+              onBlur={(e) => {
+                const clean = Math.max(parseInt(e.target.value || '1', 10), 1);
+                updateQty(item.id, clean.toString());
+              }}
               style={{
+                minWidth: '50px',
+                maxWidth: '50px',
+                textAlign: 'center',
+                marginRight: '8px'
+              }}
+            />
+
+            <button 
+              onClick={() => updateQty(item.id, (parseInt(item.qty, 10) || 1) + 1)}
+              style={{
+                minWidth: '28px',
+                maxWidth: '28px',
+                height: '24px',
+                background: '#4dabf7', color: '#fff', border: 'none',
+                borderRadius: '4px', cursor: 'pointer',
+                marginLeft: '4px'
+              }}
+            >+</button>
+
+            <button 
+              onClick={() => updateQty(item.id, Math.max((parseInt(item.qty, 10) || 1) - 1, 1))}
+              style={{
+                minWidth: '28px',
+                maxWidth: '28px',
+                height: '24px',
+                background: '#868e96', color: '#fff', border: 'none',
+                borderRadius: '4px', cursor: 'pointer',
+                marginLeft: '4px'
+              }}
+            >-</button>
+
+            <span style={{
+              width: '100px',
+              textAlign: 'right',
+              whiteSpace: 'nowrap',
+              display: 'inline-block',
+              marginLeft: '8px'
+            }}>
+              {((parseInt(item.qty, 10) || 1) * item.price).toLocaleString()}원
+            </span>
+
+            <button 
+              onClick={() => setQuoteItems(quoteItems.filter(it => it.id !== item.id))}
+              style={{
+                minWidth: '30px',
+                maxWidth: '30px',
                 marginLeft: '8px', color: '#fff', background: '#e03131', 
-                border: 'none', borderRadius: '50%', width: '24px', height: '24px',
+                border: 'none', borderRadius: '50%', height: '24px',
                 cursor: 'pointer', fontSize: '14px', lineHeight: '24px', textAlign: 'center'
               }}
             >
@@ -107,7 +169,8 @@ export default function QuoteBuilder() {
             </button>
           </div>
         ))}
-        <div style={{ marginTop: '12px' }}>
+
+        <div style={{ marginTop: '20px' }}>
           <div>총 업소 수: 
             <input 
               type="number" 
@@ -118,6 +181,26 @@ export default function QuoteBuilder() {
           </div>
           <div>업소당 합계: {totalPerShop.toLocaleString()}원</div>
           <div style={{ fontWeight: 'bold' }}>전체 합계: {totalAllShops.toLocaleString()}원</div>
+
+          <div style={{ marginTop: '15px' }}>
+            <button 
+              onClick={downloadExcel}
+              style={{
+                background: '#2f9e44',
+                color: '#fff',
+                padding: '8px 16px',
+                border: 'none',
+                borderRadius: '5px',
+                cursor: 'pointer',
+                fontSize: '14px',
+                display: 'flex',
+                alignItems: 'center'
+              }}
+            >
+              <span style={{ fontSize: '18px', marginRight: '8px' }}>📊</span>
+              EXCEL 다운로드
+            </button>
+          </div>
         </div>
       </div>
 
@@ -172,3 +255,4 @@ export default function QuoteBuilder() {
     </div>
   );
 }
+

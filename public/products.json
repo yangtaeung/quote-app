@@ -1,0 +1,45 @@
+{
+  "주방소모품": [
+{ "id": 1, "name": "3색주방행주", "price": 300, "icon": "/images/category1/3색주방행주.png" },
+    { "id": 2, "name": "롤행주40매", "price": 3500, "icon": "/images/category1/롤행주40매.png" },
+    { "id": 3, "name": "케렌시아 행주티슈", "price": 3500, "icon": "/images/category1/케렌시아 행주티슈.png" },
+    { "id": 4, "name": "무지개행주", "price": 3800, "icon": "/images/category1/무지개행주.jpg" },
+    { "id": 5, "name": "곡물주방세제", "price": 5000, "icon": "/images/category1/곡물주방세제.png" },
+    { "id": 6, "name": "도마행주용세정제", "price": 5000, "icon": "/images/category1/500g.jpg" },
+    { "id": 7, "name": "기구살균세정제450ml", "price": 5000, "icon": "/images/category1/450ml.png" },
+    { "id": 8, "name": "핸드워시250ml", "price": 3800, "icon": "/images/category1/핸드워시25ml.jpg" },
+    { "id": 9, "name": "니트릴장갑100매", "price": 10000, "icon": "/images/category1/니트릴장갑100매.png" },
+    { "id": 10, "name": "위생마스크m4", "price": 5900, "icon": "/images/category1/위생마스크m4.png" },
+    { "id": 11, "name": "고무장갑", "price": 2200, "icon": "/images/category1/고무장갑.png" },
+    { "id": 12, "name": "고리형 고무장갑", "price": 3300, "icon": "/images/category1/고리형 고무장갑.png" },
+    { "id": 13, "name": "드라이수세미2P", "price": 3000, "icon": "/images/category1/드라이수세미2P.png" },
+    { "id": 14, "name": "위생비닐장갑100매", "price": 2200, "icon": "/images/category1/위생장갑100매.jpg" },
+    { "id": 15, "name": "더블지퍼백(중)", "price": 2200, "icon": "/images/category1/더블지퍼백(중).png" },
+    { "id": 16, "name": "뉴롤백 대형 200매", "price": 4500, "icon": "/images/category1/뉴롤백 대형 200매.png" },
+    { "id": 17, "name": "다용도비닐봉투", "price": 5000, "icon": "/images/category1/다용도비닐봉투.png" },
+    { "id": 18, "name": "더블지퍼백(대)", "price": 2500, "icon": "/images/category1/더블지퍼백(대).jpg" },
+    { "id": 19, "name": "천연펄프수세미", "price": 2800, "icon": "/images/category1/천연펄프수세미.png" },
+    { "id": 20, "name": "기름때 클리너 60매", "price": 1600, "icon": "/images/category1/기름때 클리너60매.png" },
+    { "id": 21, "name": "케이스 라벨지 냉동형 100매", "price": 7000, "icon": "/images/category1/케이스형 라벨지 냉동형.png" },
+    { "id": 22, "name": "케이스 라벨지 냉장형 100매", "price": 6000, "icon": "/images/category1/케이스형 라벨지 냉장형.png" }
+  ],
+  "주방용품": [
+    { "id": 1, "name": "주방가위", "price": 5000, "icon": "/images/category2/거북가위.png" },
+    { "id": 2, "name": "스텐국자", "price": 3000, "icon": "/images/category2/국자 265mm.jpg" },
+    { "id": 3, "name": "스텐집게(중)", "price": 1200, "icon": "/images/category2/뷔페집게(중).png" },
+    { "id": 4, "name": "스텐물병 1300ml", "price": 13200, "icon": "/images/category2/스텐물병 7호.png" },
+    { "id": 5, "name": "칼라도마600*400", "price": 35000, "icon": "/images/category2/칼라도마.jpg" },
+    { "id": 6, "name": "칼라도마450*350", "price": 25000, "icon": "/images/category2/칼라도마.jpg" },
+    { "id": 7, "name": "향균도마600*400", "price": 45000, "icon": "/images/category2/향균도마.png" },
+    { "id": 8, "name": "칼라식도", "price": 35000, "icon": "/images/category2/칼라식도.png" },
+    { "id": 9, "name": "위생앞치마", "price": 14200, "icon": "/images/category2/코지위생앞치마.png" },
+    { "id": 10, "name": "위생두건", "price": 4500, "icon": "/images/category2/위생두건.png" },
+    { "id": 11, "name": "부직포앞치마 10,000장 기준", "price": 190, "icon": "/images/category2/부직포앞치마.jpg" },
+    { "id": 12, "name": "포장용기 1,100ml", "price": 190, "icon": "/images/category2/포장용기 1100ml.png" }
+  ],
+  "주방기구": [
+    { "id": 1, "name": "스텐받드세트 12종", "price": 250000, "icon": "/images/category3/스텐받드세트.png" },
+    { "id": 2, "name": "칼소독기", "price": 120000, "icon": "/images/category3/신도-칼소독기.png" },
+    { "id": 3, "name": "해충퇴치기", "price": 150000, "icon": "/images/category3/해충퇴치기.png" }
+  ]
+}
