@@ -1,42 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import * as XLSX from 'xlsx';
-import { buildGptPrompt } from './promptTemplate';
 import useGptQuote from './hooks/useGptQuote';
-
-async function generateQuoteNamesFromGPT({
-  projectType, shopBudget, shopCount, mustItems, productNames, lowerBound, upperBound, mustProductCandidates
-}) {
-  const prompt = buildGptPrompt({
-    projectType, shopBudget, shopCount, mustItems,
-    productNames, lowerBound, upperBound, mustProductCandidates
-  });
-
-  try {
-    const response = await fetch("https://api.openai.com/v1/chat/completions", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${process.env.REACT_APP_OPENAI_API_KEY}`
-      },
-      body: JSON.stringify({
-        model: "gpt-3.5-turbo",
-        messages: [{ role: "user", content: prompt }]
-      })
-    });
-    const data = await response.json();
-    console.log("GPT API 원본 응답:", JSON.stringify(data, null, 2));
-
-    if (data.choices && data.choices[0]) {
-      return JSON.parse(data.choices[0].message.content);
-    } else {
-      console.error("GPT에서 content를 받지 못했습니다:", data);
-      return null;
-    }
-  } catch (err) {
-    console.error("GPT API 호출 오류:", err);
-    return null;
-  }
-}
 
 export default function QuoteBuilder() {
   const [productsData, setProductsData] = useState({});
@@ -154,25 +118,31 @@ export default function QuoteBuilder() {
           </div>
           <div>업소당 합계: {totalPerShop.toLocaleString()}원</div>
           <div style={{ fontWeight: 'bold' }}>전체 합계: {totalAllShops.toLocaleString()}원</div>
-          <div style={{ marginTop: '15px', display: 'flex', gap: '10px' }}>
+          <div style={{ marginTop: '15px' }}>
             <button onClick={downloadExcel} style={{
               background: '#2f9e44', color: '#fff', padding: '8px 16px',
               border: 'none', borderRadius: '5px', cursor: 'pointer', fontSize: '14px'
             }}>
               📊 EXCEL 다운로드
             </button>
-            <button onClick={() => window.open('https://foodlinestore.com', '_blank')} style={{
-              background: '#228be6', color: '#fff', padding: '8px 16px',
-              border: 'none', borderRadius: '5px', cursor: 'pointer', fontSize: '14px'
+
+            {/* ✅ 홈페이지 버튼 */}
+            <a href="https://foodlinestore.com" target="_blank" rel="noopener noreferrer" style={{
+              marginLeft: '8px', background: '#1c7ed6', color: '#fff', padding: '8px 16px',
+              border: 'none', borderRadius: '5px', cursor: 'pointer', fontSize: '14px',
+              textDecoration: 'none', display: 'inline-block'
             }}>
               🏠 홈페이지 바로가기
-            </button>
-            <button onClick={() => window.open('https://blog.naver.com/foodline5436', '_blank')} style={{
-              background: '#12b886', color: '#fff', padding: '8px 16px',
-              border: 'none', borderRadius: '5px', cursor: 'pointer', fontSize: '14px'
+            </a>
+
+            {/* ✅ 블로그 버튼 */}
+            <a href="https://blog.naver.com/foodline5436" target="_blank" rel="noopener noreferrer" style={{
+              marginLeft: '8px', background: '#12b886', color: '#fff', padding: '8px 16px',
+              border: 'none', borderRadius: '5px', cursor: 'pointer', fontSize: '14px',
+              textDecoration: 'none', display: 'inline-block'
             }}>
-              📝 납품사례 바로가기
-            </button>
+              📚 블로그 바로가기
+            </a>
           </div>
         </div>
       </div>
@@ -277,5 +247,6 @@ export default function QuoteBuilder() {
     </div>
   );
 }
+
 
 

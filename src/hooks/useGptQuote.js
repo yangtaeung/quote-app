@@ -25,45 +25,51 @@ export default function useGptQuote(productsData, gptForm, setQuoteItems, setGpt
       productNames, lowerBound, upperBound, mustProductCandidates
     });
 
+    // ✅ GPT 결과 없으면 안전 탈출
+    if (!gptNames || !Array.isArray(gptNames) || gptNames.length === 0) {
+      setGptResult("GPT에서 유효한 추천 품목을 받지 못했습니다. 필수 품목을 추가하거나 다시 시도해주세요.");
+      return;
+    }
+
     let finalQuoteItems = [], total = 0;
+    let iterations = 0;
+    const maxIterations = 1000; // safeguard
 
-    if (gptNames && Array.isArray(gptNames)) {
-      while (total < lowerBound) {
-        for (let name of gptNames) {
-          const product = allProductsFlat.find(p => p.name === name);
-          if (!product) continue;
-          const existing = finalQuoteItems.find(q => q.name === product.name);
+    while (total < lowerBound && iterations < maxIterations) {
+      iterations++;
+      for (let name of gptNames) {
+        const product = allProductsFlat.find(p => p.name === name);
+        if (!product) continue;
+        const existing = finalQuoteItems.find(q => q.name === product.name);
 
-          if (product.name.includes('부직포앞치마') || product.name.includes('포장용기')) {
-            // ⭐ 부직포앞치마, 포장용기는 100 단위
-            if (existing) {
-              if (total + product.price * 100 <= upperBound) {
-                existing.qty += 100;
-                total += product.price * 100;
-              }
-            } else {
-              if (total + product.price * 100 <= upperBound) {
-                finalQuoteItems.push({ ...product, qty: 100 });
-                total += product.price * 100;
-              }
+        if (product.name.includes('부직포앞치마') || product.name.includes('포장용기')) {
+          if (existing) {
+            if (total + product.price * 100 <= upperBound) {
+              existing.qty += 100;
+              total += product.price * 100;
             }
           } else {
-            if (existing) {
-              if (total + product.price <= upperBound) {
-                existing.qty += 1;
-                total += product.price;
-              }
-            } else {
-              if (total + product.price <= upperBound) {
-                finalQuoteItems.push({ ...product, qty: 1 });
-                total += product.price;
-              }
+            if (total + product.price * 100 <= upperBound) {
+              finalQuoteItems.push({ ...product, qty: 100 });
+              total += product.price * 100;
             }
           }
-          if (total >= lowerBound) break;
+        } else {
+          if (existing) {
+            if (total + product.price <= upperBound) {
+              existing.qty += 1;
+              total += product.price;
+            }
+          } else {
+            if (total + product.price <= upperBound) {
+              finalQuoteItems.push({ ...product, qty: 1 });
+              total += product.price;
+            }
+          }
         }
-        if (total >= upperBound) break;
+        if (total >= lowerBound) break;
       }
+      if (total >= upperBound) break;
     }
 
     // ⭐ 필수 포함 품목 강제 삽입
