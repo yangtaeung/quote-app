@@ -1,6 +1,7 @@
 {
-  "주방소모품": [
-{ "id": 1, "name": "3색주방행주", "price": 300, "icon": "/images/category1/3색주방행주.png" },
+  "안심식당": [
+    // 주방소모품
+    { "id": 1, "name": "3색주방행주", "price": 300, "icon": "/images/category1/3색주방행주.png" },
     { "id": 2, "name": "롤행주40매", "price": 3500, "icon": "/images/category1/롤행주40매.png" },
     { "id": 3, "name": "케렌시아 행주티슈", "price": 3500, "icon": "/images/category1/케렌시아 행주티슈.png" },
     { "id": 4, "name": "무지개행주", "price": 3800, "icon": "/images/category1/무지개행주.jpg" },
@@ -21,26 +22,29 @@
     { "id": 19, "name": "천연펄프수세미", "price": 2800, "icon": "/images/category1/천연펄프수세미.png" },
     { "id": 20, "name": "기름때 클리너 60매", "price": 1600, "icon": "/images/category1/기름때 클리너60매.png" },
     { "id": 21, "name": "케이스 라벨지 냉동형 100매", "price": 7000, "icon": "/images/category1/케이스형 라벨지 냉동형.png" },
-    { "id": 22, "name": "케이스 라벨지 냉장형 100매", "price": 6000, "icon": "/images/category1/케이스형 라벨지 냉장형.png" }
+    { "id": 22, "name": "케이스 라벨지 냉장형 100매", "price": 6000, "icon": "/images/category1/케이스형 라벨지 냉장형.png" },
+
+    // 주방용품
+    { "id": 23, "name": "주방가위", "price": 5000, "icon": "/images/category2/거북가위.png" },
+    { "id": 24, "name": "스텐국자", "price": 3000, "icon": "/images/category2/국자 265mm.jpg" },
+    { "id": 25, "name": "스텐집게(중)", "price": 1200, "icon": "/images/category2/뷔페집게(중).png" },
+    { "id": 26, "name": "스텐물병 1300ml", "price": 13200, "icon": "/images/category2/스텐물병 7호.png" },
+    { "id": 27, "name": "칼라도마600*400", "price": 35000, "icon": "/images/category2/칼라도마.jpg" },
+    { "id": 28, "name": "칼라도마450*350", "price": 25000, "icon": "/images/category2/칼라도마.jpg" },
+    { "id": 29, "name": "향균도마600*400", "price": 45000, "icon": "/images/category2/향균도마.png" },
+    { "id": 30, "name": "칼라식도", "price": 35000, "icon": "/images/category2/칼라식도.png" },
+    { "id": 31, "name": "위생앞치마", "price": 14200, "icon": "/images/category2/코지위생앞치마.png" },
+    { "id": 32, "name": "위생두건", "price": 4500, "icon": "/images/category2/위생두건.png" },
+    { "id": 33, "name": "반망사 위생 캡모자", "price": 8800, "icon": "/images/category2/반망사 위생 캡모자.jpg" },
+    { "id": 34, "name": "부직포앞치마 10,000장 기준", "price": 190, "icon": "/images/category2/부직포앞치마.jpg" },
+    { "id": 35, "name": "포장용기 1,100ml", "price": 190, "icon": "/images/category2/포장용기 1100ml.png" },
+
+    // 주방기구
+    { "id": 36, "name": "스텐받드세트 12종", "price": 250000, "icon": "/images/category3/스텐받드세트.png" },
+    { "id": 37, "name": "칼소독기", "price": 120000, "icon": "/images/category3/신도-칼소독기.png" },
+    { "id": 38, "name": "해충퇴치기", "price": 150000, "icon": "/images/category3/해충퇴치기.png" }
   ],
-  "주방용품": [
-    { "id": 1, "name": "주방가위", "price": 5000, "icon": "/images/category2/거북가위.png" },
-    { "id": 2, "name": "스텐국자", "price": 3000, "icon": "/images/category2/국자 265mm.jpg" },
-    { "id": 3, "name": "스텐집게(중)", "price": 1200, "icon": "/images/category2/뷔페집게(중).png" },
-    { "id": 4, "name": "스텐물병 1300ml", "price": 13200, "icon": "/images/category2/스텐물병 7호.png" },
-    { "id": 5, "name": "칼라도마600*400", "price": 35000, "icon": "/images/category2/칼라도마.jpg" },
-    { "id": 6, "name": "칼라도마450*350", "price": 25000, "icon": "/images/category2/칼라도마.jpg" },
-    { "id": 7, "name": "향균도마600*400", "price": 45000, "icon": "/images/category2/향균도마.png" },
-    { "id": 8, "name": "칼라식도", "price": 35000, "icon": "/images/category2/칼라식도.png" },
-    { "id": 9, "name": "위생앞치마", "price": 14200, "icon": "/images/category2/코지위생앞치마.png" },
-    { "id": 10, "name": "위생두건", "price": 4500, "icon": "/images/category2/위생두건.png" },
-    { "id": 11, "name": "반망사 위생 캡모자", "price": 8800, "icon": "/images/category2/반망사 위생 캡모자.jpg" },
-    { "id": 12, "name": "부직포앞치마 10,000장 기준", "price": 190, "icon": "/images/category2/부직포앞치마.jpg" },
-    { "id": 13, "name": "포장용기 1,100ml", "price": 190, "icon": "/images/category2/포장용기 1100ml.png" }
-  ],
-  "주방기구": [
-    { "id": 1, "name": "스텐받드세트 12종", "price": 250000, "icon": "/images/category3/스텐받드세트.png" },
-    { "id": 2, "name": "칼소독기", "price": 120000, "icon": "/images/category3/신도-칼소독기.png" },
-    { "id": 3, "name": "해충퇴치기", "price": 150000, "icon": "/images/category3/해충퇴치기.png" }
-  ]
+
+  "위생등급제": [ /* 위와 동일하게 전체 리스트 */ ],
+  "기타사업": [ /* 위와 동일하게 전체 리스트 */ ]
 }
