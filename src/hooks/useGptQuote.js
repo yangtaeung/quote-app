@@ -54,6 +54,18 @@ export default function useGptQuote(productsData, gptForm, setQuoteItems, setGpt
               total += product.price * 100;
             }
           }
+        } else if (product.name.includes('안심수저집')) {
+          if (existing) {
+            if (total + product.price * 500 <= upperBound) {
+              existing.qty += 500;
+              total += product.price * 500;
+            }
+          } else {
+            if (total + product.price * 500 <= upperBound) {
+              finalQuoteItems.push({ ...product, qty: 500 });
+              total += product.price * 500;
+            }
+          }
         } else {
           if (existing) {
             if (total + product.price <= upperBound) {
@@ -82,6 +94,9 @@ export default function useGptQuote(productsData, gptForm, setQuoteItems, setGpt
           if (chosen.name.includes('부직포앞치마') || chosen.name.includes('포장용기')) {
             finalQuoteItems.push({ ...chosen, qty: 100 });
             total += chosen.price * 100;
+          } else if (chosen.name.includes('안심수저집')) {
+            finalQuoteItems.push({ ...chosen, qty: 500 });
+            total += chosen.price * 500;
           } else {
             finalQuoteItems.push({ ...chosen, qty: 1 });
             total += chosen.price;
